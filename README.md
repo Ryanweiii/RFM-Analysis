@@ -91,6 +91,56 @@ rfm_data['Cluster'] = nrfm['Cluster']
 
 完整流程請見 [`rfm_analysis.ipynb`](rfm_analysis.ipynb)。
 
+### ✅ 分群驗證:Silhouette 分析
+
+為驗證 K = 4 的分群品質,計算每位客戶的輪廓係數(Silhouette),並依群繪製分布圖。係數介於 -1 到 1,越接近 1 代表客戶與所屬群越相似、與其他群越不同。
+
+<details>
+<summary>展開程式碼</summary>
+
+```python
+from sklearn.metrics import silhouette_samples
+import numpy as np
+import matplotlib.pyplot as plt
+
+silhouette = silhouette_samples(nrfm[["R", "F", "M"]], nrfm.Cluster)
+
+k = 4
+plt.figure(figsize=[12, 8])
+x0 = 0
+
+for i in range(k):
+    group_slh = silhouette[nrfm.Cluster == i]   # 取出 i 組 silhouette 分數
+    x = range(x0, x0 + len(group_slh))          # 類別軸 (x)
+
+    y = -np.sort(-group_slh)                    # 依遞減排序 (y)
+    yavg = np.average(group_slh)                # 該組平均值,作為參考線
+
+    plt.fill_between(x, y, alpha=0.2, label=i)
+    plt.plot([x0, x0 + len(group_slh)], [yavg, yavg], '--')
+    plt.legend()
+
+    x0 = x0 + len(group_slh)
+
+plt.title('Silhouette Score of optimal K', fontsize=20)
+plt.xlabel('Item No', fontsize=15)
+plt.ylabel('Silhouette Score', fontsize=15)
+plt.savefig('Silhouette_Plot.png', dpi=300, bbox_inches='tight')
+plt.show()
+```
+
+</details>
+
+![Silhouette 分析圖](images/Silhouette_Plot.png)
+
+**圖表說明**
+
+- 每個顏色代表一個群,橫軸為客戶、縱軸為輪廓係數(由大到小排列)
+- 虛線為各群的平均輪廓係數
+- 色塊寬度代表該群人數
+- 整體平均輪廓係數:**0.xx**(請填入你的結果)
+- 解讀:(請依圖寫 1~2 句,例如哪一群最緊密、哪一群有較多係數為負的客戶)
+
 ### 🛠️ 開發流程
 
 使用 Google AI Studio 產生 RFM 轉換程式碼,於 Jupyter Notebook 整合與驗證,並在 Google Colab 中以自然語言指令完成正規化、分群與視覺化。
