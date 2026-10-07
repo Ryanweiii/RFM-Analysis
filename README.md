@@ -7,7 +7,7 @@
 
 > 以 RFM 模型與 K-means 對 732 位零售客戶分群,找出核心客群與流失風險客群,作為差異化行銷的依據。
 
-![RFM Pairplot](images/RFM_Pairplot.png)
+
 
 ## 📖 目錄
 
@@ -131,7 +131,7 @@ plt.show()
 
 </details>
 
-![Silhouette 分析圖](images/Silhouette_Plot.png)
+![Silhouette 分析圖](Silhouette_Plot.png)
 
 **圖表說明**
 
