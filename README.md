@@ -146,4 +146,4 @@ jupyter notebook rfm_analysis.ipynb
 - 可加入輪廓係數(Silhouette Score)等指標驗證 K 值
 - 可延伸為定期更新的 Power BI 儀表板
 
-## 👤 作者
+## 👤 作者Ryan
